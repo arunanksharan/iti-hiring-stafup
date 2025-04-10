@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'protean-iti-hiring.firebasestorage.app',
     iosBundleId: 'com.kuzushiprotean.stafup',
   );
+
 }

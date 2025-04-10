@@ -47,12 +47,12 @@ android {
         create("dev") {
             dimension = "app"
             resValue("string", "app_name", "STAFUP Dev")
-            applicationIdSuffix = ".dev"
+            applicationIdSuffix = ""
         }
         create("uat") {
             dimension = "app"
             resValue("string", "app_name", "STAFUP UAT")
-            applicationIdSuffix = ".uat"
+            applicationIdSuffix = ""
         }
         create("prod") {
             dimension = "app"

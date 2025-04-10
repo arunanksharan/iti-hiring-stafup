@@ -66,7 +66,7 @@ class VerifyGstNumberState extends State<VerifyGstNumber> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Welcome to Seeker',
+                      'Welcome to Stafup',
                       style: textTheme.displayMedium?.copyWith(
                         color: colorScheme.primary,
                       ),
@@ -74,7 +74,7 @@ class VerifyGstNumberState extends State<VerifyGstNumber> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Find your perfect job opportunity',
+                      'Find your perfect candidates',
                       style: textTheme.bodyLarge?.copyWith(
                         color: colorScheme.onSurface.withAlpha(153),
                       ),

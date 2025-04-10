@@ -206,7 +206,7 @@ class AuthRepository {
       );
 
       final Map<String, dynamic> jsonMap = response.data;
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (jsonMap[ApiVariables.success] == true) {
           return CreateCompanyModel.fromJson(jsonMap['data']);
         } else {
