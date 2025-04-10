@@ -13,22 +13,26 @@ class HomeRepository {
     int pageSize = 50,
   }) async {
     try {
+      // Validate companyId is not empty before proceeding
+      if (companyId.isEmpty) {
+        AppLoggerHelper.error('Error: Company ID is empty');
+        throw Exception('Company ID is missing. Please ensure you are logged in with a company account.');
+      }
+      
       AppLoggerHelper.info(
         "Fetching jobs for company: $companyId, page: $page, page_size: $pageSize",
       );
+      
       final response = await DioClient.perform(
         '${ApiStrings.company}/$companyId/job_posting/list?page=$page&page_size=$pageSize',
         ApiMethods.get,
       );
-      final Map<String, dynamic> jsonMap = response.data;
-
+      
       if (response.statusCode == 200) {
         return JobListModel.fromJson(response.data);
       } else {
-        throw Exception(
-          jsonMap[ApiVariables.message] ??
-              'Request failed with status: ${response.statusCode}',
-        );
+        AppLoggerHelper.error('Failed to fetch jobs: Status code ${response.statusCode}');
+        throw Exception('Failed to fetch jobs: Status code ${response.statusCode}');
       }
     } catch (error) {
       AppLoggerHelper.error('Error fetching jobs: $error');

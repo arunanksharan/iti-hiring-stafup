@@ -6,6 +6,7 @@ import 'package:stafup/feature/authentication/data/model/create_company_model.da
 import 'package:stafup/feature/authentication/data/model/auth_model.dart';
 import 'package:stafup/feature/authentication/data/model/exchange_token_model.dart';
 import 'package:stafup/feature/authentication/data/repository/auth_repository.dart';
+import 'package:stafup/utils/fh_constant.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -141,7 +142,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // Save company ID to shared preferences
       final prefs = await SharedPreferences.getInstance();
       if (data.id != null) {
-        await prefs.setString('companyId', data.id!);
+        await prefs.setString(companyId, data.id!);
         
         // Instead of creating new objects, let's just directly update the state
         emit(
