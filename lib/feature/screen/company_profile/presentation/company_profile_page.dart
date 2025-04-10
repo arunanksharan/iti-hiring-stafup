@@ -5,6 +5,8 @@ import 'package:stafup/feature/screen/company_profile/bloc/company_profile_bloc.
 import 'package:stafup/utils/fh_colors.dart';
 // Import the constant with a clear name to avoid confusion
 import 'package:stafup/utils/fh_constant.dart' as constants;
+import 'package:get/get.dart';
+import 'package:stafup/utils/theme/app_colors.dart';
 
 class CompanyProfilePage extends StatefulWidget {
   const CompanyProfilePage({super.key, this.companyId});
@@ -185,15 +187,27 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       body: BlocConsumer<CompanyProfileBloc, CompanyProfileState>(
         listener: (context, state) {
           if (state is CompanyProfileError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            Get.snackbar(
+              'Failed',
+              state.message,
+              backgroundColor: Colors.red.shade100,
+              colorText: Colors.black,
+              duration: Duration(seconds: 3),
+              snackPosition: SnackPosition.BOTTOM,
+            );
           }
 
           if (state is CompanyProfileUpdated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Company profile updated successfully'),
+            Get.snackbar(
+              'Success',
+              'Company profile updated successfully',
+              backgroundColor: AppColors.primary500,
+              colorText: Colors.white,
+              duration: Duration(seconds: 1),
+              snackPosition: SnackPosition.BOTTOM,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16, // Keep horizontal padding or adjust as needed
+                vertical: 8, // Reduce vertical padding (default is likely more)
               ),
             );
           }
@@ -251,8 +265,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   // Company Name
                   Text(
                     'Company Name',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.bodyMedium?.copyWith(
+                      // fontWeight: FontWeight.normal,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -288,8 +302,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   // GST Number (read-only)
                   Text(
                     'GST Number',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.bodyMedium?.copyWith(
+                      // fontWeight: FontWeight.normal,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -314,8 +328,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   // Address
                   Text(
                     'Address',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.bodyMedium?.copyWith(
+                      // fontWeight: FontWeight.bold,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -337,7 +351,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                       filled: true,
                       fillColor: isEditing ? Colors.white : Colors.grey[50],
                     ),
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: isEditing ? Colors.black : Colors.grey[700],
                     ),
                     validator: (value) {

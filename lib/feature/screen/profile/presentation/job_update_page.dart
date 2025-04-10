@@ -166,7 +166,7 @@ class _JobUpdatePageState extends State<JobUpdatePage> {
             snackPosition: SnackPosition.BOTTOM,
             padding: const EdgeInsets.symmetric(
               horizontal: 16, // Keep horizontal padding or adjust as needed
-              vertical: 0, // Reduce vertical padding (default is likely more)
+              vertical: 8, // Reduce vertical padding (default is likely more)
             ),
           );
           context.read<homeBloc.HomeBloc>().add(

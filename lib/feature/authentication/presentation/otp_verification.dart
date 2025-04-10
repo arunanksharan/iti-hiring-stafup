@@ -197,7 +197,7 @@ class OTPVerificationState extends State<OTPVerification> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'No account found. Please call\n08035736454 to register',
+                                'No account found. Please call\n08035736733 to register',
                                 textAlign: TextAlign.center,
                                 style: textTheme.bodyLarge?.copyWith(
                                   color: Colors.red.shade900,
