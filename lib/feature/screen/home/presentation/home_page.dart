@@ -22,23 +22,35 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   final String tag = '/HomePage';
 
   RefreshController refreshController = RefreshController();
   final searchController = TextEditingController();
   bool isLogout = false;
+  String? _cachedCompanyId;
+
+  @override
+  bool get wantKeepAlive => true; // Keep state when switching tabs
 
   @override
   void initState() {
     super.initState();
+    _loadAndFetchJobs();
+  }
 
-    // Use the companyId passed to the widget first, then fall back to shared preferences
-    final String? companyIdToUse =
-        widget.companyId ?? getStringAsync(companyId);
+  void _loadAndFetchJobs() {
+    // Store the company ID in a cached variable to ensure persistence
+    _cachedCompanyId = widget.companyId ?? getStringAsync(companyId);
 
-    if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
-      context.read<HomeBloc>().add(HomeEvent.fetchJobs(companyIdToUse));
+    // Cache company ID in shared prefs if we have it but it's not saved
+    if (_cachedCompanyId != null && _cachedCompanyId!.isNotEmpty && 
+        getStringAsync(companyId).isEmpty) {
+      setValue(companyId, _cachedCompanyId!);
+    }
+
+    if (_cachedCompanyId != null && _cachedCompanyId!.isNotEmpty) {
+      context.read<HomeBloc>().add(HomeEvent.fetchJobs(_cachedCompanyId!));
     } else {
       // Handle the case where no company ID is available
       debugPrint('Warning: No company ID available for job fetch');
@@ -64,7 +76,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Must call super.build for AutomaticKeepAliveClientMixin
+    
     Provider.of<ColorNotifier>(context);
+    
+    // Always check for company ID when building the widget
+    // This ensures we have the ID even when navigating back to this tab
+    final String? companyIdToUse = _cachedCompanyId ?? getStringAsync(companyId);
+    
+    // Only fetch if company ID is available and we need to rehydrate data
+    if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
+      // Get current bloc state to determine if we need to fetch
+      final currentState = context.read<HomeBloc>().state;
+      if (currentState is Error) {
+        // If we're in an error state, try to fetch again with the company ID
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.read<HomeBloc>().add(HomeEvent.fetchJobs(companyIdToUse));
+        });
+      }
+    }
+    
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is Loaded) {
