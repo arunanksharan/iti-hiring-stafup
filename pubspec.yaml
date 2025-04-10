@@ -41,6 +41,7 @@ dependencies:
   persistent_bottom_nav_bar: ^6.2.1
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.2
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -82,3 +83,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https:
+flutter_native_splash:
+  # Background color for the splash screen (use hex color codes)
+  color: '#FFFFFF' # Example: White background
+  # Optional: Background color for dark mode
+  # color_dark: "#000000" # Example: Black background for dark mode
+
+  # The image asset to show on the splash screen
+  image: assets/images/logo.png
