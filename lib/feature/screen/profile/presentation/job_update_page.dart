@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:stafup/feature/screen/home/bloc/home_bloc.dart' as homeBloc;
 import 'package:stafup/utils/bloc_utils.dart';
 import 'package:itq_utils/itq_utils.dart';
+import 'package:stafup/utils/theme/app_colors.dart';
 
 import '../../../../utils/fh_constant.dart';
 import '../data/model/job_update_model.dart';
@@ -159,9 +160,10 @@ class _JobUpdatePageState extends State<JobUpdatePage> {
           Get.snackbar(
             'Success',
             'Job details updated successfully',
-            backgroundColor: Colors.green.shade100,
-            colorText: Colors.black,
-            duration: Duration(seconds: 3),
+            backgroundColor: AppColors.primary500,
+            colorText: Colors.white,
+            duration: Duration(seconds: 1),
+            snackPosition: SnackPosition.BOTTOM,
           );
           context.read<homeBloc.HomeBloc>().add(
             homeBloc.FetchJobs(getStringAsync(companyId)),
@@ -177,6 +179,7 @@ class _JobUpdatePageState extends State<JobUpdatePage> {
               backgroundColor: Colors.red.shade100,
               colorText: Colors.black,
               duration: Duration(seconds: 3),
+              snackPosition: SnackPosition.BOTTOM,
             );
           }
         }

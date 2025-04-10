@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:itq_utils/itq_utils.dart';
 import 'package:stafup/feature/screen/company_profile/bloc/company_profile_bloc.dart';
 import 'package:stafup/utils/fh_colors.dart';
-import 'package:itq_utils/itq_utils.dart';
+// Import the constant with a clear name to avoid confusion
+import 'package:stafup/utils/fh_constant.dart' as constants;
 
 class CompanyProfilePage extends StatefulWidget {
   const CompanyProfilePage({super.key, this.companyId});
@@ -17,20 +19,30 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final addressController = TextEditingController();
-  
+
   String? companyId;
   bool isEditing = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     // Use the company ID passed to the widget or from shared preferences
-    companyId = widget.companyId ?? getStringAsync('companyId');
-    
-    if (companyId != null && companyId!.isNotEmpty) {
+    this.companyId = widget.companyId;
+
+    if (this.companyId == null || this.companyId!.isEmpty) {
+      // Use the constant from fh_constant.dart for consistency
+      final savedId = getStringAsync(constants.companyId);
+      if (savedId.isNotEmpty) {
+        this.companyId = savedId;
+      }
+    }
+
+    if (this.companyId != null && this.companyId!.isNotEmpty) {
+      final String companyIdToUse =
+          this.companyId!; // Use a local non-nullable variable
       context.read<CompanyProfileBloc>().add(
-        FetchCompanyProfile(companyId!),
+        FetchCompanyProfile(companyIdToUse),
       );
     } else {
       // Handle the case where no company ID is available
@@ -45,37 +57,40 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     super.dispose();
   }
 
-  // Update the text controllers with company data
+  // Update text controllers with data from state
   void _updateControllers(CompanyProfileState state) {
-    if (state is CompanyProfileLoaded && !isEditing) {
-      nameController.text = state.companyProfile.name ?? '';
-      addressController.text = state.companyProfile.address ?? '';
-    } else if (state is CompanyProfileUpdated && !isEditing) {
-      nameController.text = state.companyProfile.name ?? '';
-      addressController.text = state.companyProfile.address ?? '';
+    final companyData =
+        state is CompanyProfileLoaded
+            ? state.companyProfile
+            : state is CompanyProfileUpdated
+            ? state.companyProfile
+            : null;
+
+    if (companyData != null) {
+      // Only update if there's actual data
+      nameController.text = companyData.name ?? '';
+      addressController.text = companyData.address ?? '';
     }
   }
 
-  // Toggle edit mode
-  void _toggleEditMode() {
-    setState(() {
-      isEditing = !isEditing;
-    });
-  }
-
-  // Save changes
+  // Save changes to company profile
   void _saveChanges() {
-    if (_formKey.currentState!.validate()) {
-      if (companyId != null) {
-        context.read<CompanyProfileBloc>().add(
-          UpdateCompanyProfile(
-            companyId: companyId!,
-            name: nameController.text,
-            address: addressController.text,
-          ),
-        );
-      }
-      _toggleEditMode();
+    if (_formKey.currentState!.validate() && companyId != null) {
+      // Create a local non-nullable variable to fix type mismatch
+      final String companyIdToUse = companyId!;
+
+      context.read<CompanyProfileBloc>().add(
+        UpdateCompanyProfile(
+          companyId: companyIdToUse,
+          name: nameController.text,
+          address: addressController.text,
+        ),
+      );
+
+      // Toggle edit mode off after saving
+      setState(() {
+        isEditing = false;
+      });
     }
   }
 
@@ -83,38 +98,77 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
+        elevation: 0,
+        title: Text(
           'Company Profile',
-          style: TextStyle(color: Colors.black),
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           BlocBuilder<CompanyProfileBloc, CompanyProfileState>(
             builder: (context, state) {
-              if (state is CompanyProfileLoading) {
+              // Only show edit button when data is loaded, not during loading
+              if (state is CompanyProfileLoading && !isEditing) {
                 return const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.blue,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     ),
                   ),
                 );
               }
-              
-              return IconButton(
-                icon: Icon(
-                  isEditing ? Icons.check : Icons.edit,
-                  color: Colors.blue,
+
+              if (isEditing) {
+                // If in editing mode, show only Cancel button
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isEditing = false;
+                          
+                          // Reset controllers to original values
+                          if (state is CompanyProfileLoaded) {
+                            nameController.text = state.companyProfile.name ?? '';
+                            addressController.text = state.companyProfile.address ?? '';
+                          } else if (state is CompanyProfileUpdated) {
+                            nameController.text = state.companyProfile.name ?? '';
+                            addressController.text = state.companyProfile.address ?? '';
+                          }
+                        });
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                );
+              }
+
+              // If not editing, show the Edit button
+              return TextButton(
+                onPressed: state is CompanyProfileLoading ? null : () {
+                  setState(() {
+                    isEditing = true;
+                  });
+                },
+                child: Text(
+                  'Edit',
+                  style: textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
-                onPressed: isEditing ? _saveChanges : _toggleEditMode,
               );
             },
           ),
@@ -123,17 +177,19 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       body: BlocConsumer<CompanyProfileBloc, CompanyProfileState>(
         listener: (context, state) {
           if (state is CompanyProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
-          
+
           if (state is CompanyProfileUpdated) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Company profile updated successfully')),
+              const SnackBar(
+                content: Text('Company profile updated successfully'),
+              ),
             );
           }
-          
+
           // Update text controllers when data is loaded or updated
           if (state is CompanyProfileLoaded || state is CompanyProfileUpdated) {
             _updateControllers(state);
@@ -142,24 +198,22 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
         builder: (context, state) {
           // If loading and there's no company profile data yet, show loading indicator
           if (state is CompanyProfileLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
-          
+
           // Update controllers with data if available
           if (state is CompanyProfileLoaded || state is CompanyProfileUpdated) {
             _updateControllers(state);
           }
 
-          // Get GST number for display
+          // Get GST number from state
           String? gstNumber;
           if (state is CompanyProfileLoaded) {
             gstNumber = state.companyProfile.gstNumber;
           } else if (state is CompanyProfileUpdated) {
             gstNumber = state.companyProfile.gstNumber;
           }
-          
+
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -167,24 +221,25 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Company logo or icon
-                  Center(
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Icon(
-                        Icons.business,
-                        size: 50,
-                        color: Colors.grey.shade700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  
+                  // Company icon and intro
+                  // Center(
+                  //   child: Column(
+                  //     children: [
+                  //       const Icon(
+                  //         Icons.business,
+                  //         size: 64,
+                  //         color: Colors.blue,
+                  //       ),
+                  //       const SizedBox(height: 8),
+                  //       Text(
+                  //         'Company Information',
+                  //         style: textTheme.titleLarge,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 8),
+
                   // Company Name
                   Text(
                     'Company Name',
@@ -198,10 +253,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     controller: nameController,
                     enabled: isEditing,
                     decoration: InputDecoration(
-                      hintText: 'Enter company name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      // hintText: 'Enter company name',
+                      // border: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(8),
+                      // ),
                       filled: !isEditing,
                       fillColor: isEditing ? null : Colors.grey.shade50,
                     ),
@@ -213,7 +268,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // GST Number (read-only)
                   Text(
                     'GST Number',
@@ -227,16 +282,16 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     initialValue: gstNumber ?? '',
                     enabled: false,
                     decoration: InputDecoration(
-                      hintText: 'GST Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      // hintText: 'GST Number',
+                      // border: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(8),
+                      // ),
                       filled: true,
                       fillColor: Colors.grey.shade50,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Address
                   Text(
                     'Address',
@@ -251,10 +306,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     enabled: isEditing,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      hintText: 'Enter company address',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      // hintText: 'Enter company address',
+                      // border: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(8),
+                      // ),
                       filled: !isEditing,
                       fillColor: isEditing ? null : Colors.grey.shade50,
                     ),
@@ -266,7 +321,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     },
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // Save button (visible only in edit mode)
                   if (isEditing)
                     SizedBox(
@@ -280,17 +335,18 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           ),
                         ),
                         onPressed: _saveChanges,
-                        child: state is CompanyProfileLoading
-                            ? const CircularProgressIndicator(
-                                color: HrmColors.white,
-                              )
-                            : const Text(
-                                'Save Changes',
-                                style: TextStyle(
-                                  fontSize: 16,
+                        child:
+                            state is CompanyProfileLoading
+                                ? const CircularProgressIndicator(
                                   color: HrmColors.white,
+                                )
+                                : const Text(
+                                  'Save Changes',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: HrmColors.white,
+                                  ),
                                 ),
-                              ),
                       ),
                     ),
                 ],
