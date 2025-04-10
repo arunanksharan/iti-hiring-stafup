@@ -162,8 +162,12 @@ class _JobUpdatePageState extends State<JobUpdatePage> {
             'Job details updated successfully',
             backgroundColor: AppColors.primary500,
             colorText: Colors.white,
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16, // Keep horizontal padding or adjust as needed
+              vertical: 0, // Reduce vertical padding (default is likely more)
+            ),
           );
           context.read<homeBloc.HomeBloc>().add(
             homeBloc.FetchJobs(getStringAsync(companyId)),
@@ -178,7 +182,7 @@ class _JobUpdatePageState extends State<JobUpdatePage> {
               state.store.errorMessage,
               backgroundColor: Colors.red.shade100,
               colorText: Colors.black,
-              duration: Duration(seconds: 3),
+              duration: Duration(seconds: 2),
               snackPosition: SnackPosition.BOTTOM,
             );
           }
