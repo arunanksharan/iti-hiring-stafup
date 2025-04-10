@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:stafup/feature/authentication/presentation/enter_number.dart';
 import 'package:stafup/feature/screen/home/bloc/home_bloc.dart';
-import 'package:stafup/utils/fh_colors.dart';
 import 'package:itq_utils/itq_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../../utils/fh_color_provider.dart';
-import '../../../../utils/fh_constant.dart';
+import 'package:stafup/utils/fh_color_provider.dart';
+import 'package:stafup/utils/fh_constant.dart';
 import '../../profile/presentation/job_update_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,19 +22,39 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   final String tag = '/HomePage';
 
   RefreshController refreshController = RefreshController();
   final searchController = TextEditingController();
   bool isLogout = false;
+  String? _cachedCompanyId;
+
+  @override
+  bool get wantKeepAlive => true; // Keep state when switching tabs
 
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(
-      HomeEvent.fetchJobs(getStringAsync(companyId)),
-    );
+    _loadAndFetchJobs();
+  }
+
+  void _loadAndFetchJobs() {
+    // Store the company ID in a cached variable to ensure persistence
+    _cachedCompanyId = widget.companyId ?? getStringAsync(companyId);
+
+    // Cache company ID in shared prefs if we have it but it's not saved
+    if (_cachedCompanyId != null && _cachedCompanyId!.isNotEmpty && 
+        getStringAsync(companyId).isEmpty) {
+      setValue(companyId, _cachedCompanyId!);
+    }
+
+    if (_cachedCompanyId != null && _cachedCompanyId!.isNotEmpty) {
+      context.read<HomeBloc>().add(HomeEvent.fetchJobs(_cachedCompanyId!));
+    } else {
+      // Handle the case where no company ID is available
+      debugPrint('Warning: No company ID available for job fetch');
+    }
   }
 
   void logout() async {
@@ -57,7 +76,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Must call super.build for AutomaticKeepAliveClientMixin
+    
     Provider.of<ColorNotifier>(context);
+    
+    // Always check for company ID when building the widget
+    // This ensures we have the ID even when navigating back to this tab
+    final String? companyIdToUse = _cachedCompanyId ?? getStringAsync(companyId);
+    
+    // Only fetch if company ID is available and we need to rehydrate data
+    if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
+      // Get current bloc state to determine if we need to fetch
+      final currentState = context.read<HomeBloc>().state;
+      if (currentState is Error) {
+        // If we're in an error state, try to fetch again with the company ID
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.read<HomeBloc>().add(HomeEvent.fetchJobs(companyIdToUse));
+        });
+      }
+    }
+    
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is Loaded) {
@@ -89,13 +127,13 @@ class _HomePageState extends State<HomePage> {
             automaticallyImplyLeading: false,
             centerTitle: false,
             title: Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 4),
+              padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Hi!", style: textTheme.headlineMedium),
                   Text(
-                    'Find your dream job today',
+                    'Find your perfect candidate',
                     style: textTheme.bodyMedium?.copyWith(
                       color: colorScheme.onSurface.withAlpha(153),
                     ),
@@ -147,85 +185,59 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 16),
             ],
+            // Add bottom border to create visual separation
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Container(color: Colors.grey.shade200, height: 1.0),
+            ),
           ),
           body: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: HrmColors.black.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.orange,
-                      size: 30,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Create/Update Your Profile',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'Complete your profile to get better job recommendations.',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Profile reminder widget removed/disabled
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 2,
                 ),
-                child: TextFormField(
-                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                  controller: searchController,
-                  onChanged: (value) {
-                    if (value.length > 2) {
-                      context.read<HomeBloc>().add(HomeEvent.search(value));
-                    } else if (value.isEmpty) {
-                      context.read<HomeBloc>().add(
-                        HomeEvent.resetAndFetch(getStringAsync(companyId)),
-                      );
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: 'Search for jobs, skills, companies...',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  ),
-                ),
+                // child: TextFormField(
+                //   onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                //   controller: searchController,
+                //   onChanged: (value) {
+                //     if (value.length > 2) {
+                //       context.read<HomeBloc>().add(HomeEvent.search(value));
+                //     } else if (value.isEmpty) {
+                //       context.read<HomeBloc>().add(
+                //         HomeEvent.resetAndFetch(getStringAsync(companyId)),
+                //       );
+                //     }
+                //   },
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     enabledBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     hintText: 'Search for jobs, skills, companies...',
+                //     prefixIcon: Icon(Icons.search, color: Colors.grey),
+                //   ),
+                // ),
               ),
+              _buildSectionHeader(context, 'Your Job Postings', () {
+                // Show "Coming Soon" directly on tap
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Coming Soon!"),
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
+              }),
               Expanded(child: _buildListContent(context, state)),
               _buildPaginationControls(context, state),
             ],
@@ -339,53 +351,20 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     '${state.store.items[index].jobPosting?.jobRole ?? ''}',
-                    style: textTheme.titleLarge?.copyWith(
+                    style: textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
 
-                  RichText(
-                    text: TextSpan(
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.black87,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Name: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          style: TextStyle(fontSize: 14),
-                          text:
-                              '${state.store.items[index].jobPosting?.personName ?? ''}',
-                        ),
-                      ],
-                    ),
+                  Text(
+                    '${state.store.items[index].jobPosting?.personName ?? ''}',
+                    style: const TextStyle(fontSize: 13, color: Colors.black87),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.black87,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Created At: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          style: TextStyle(fontSize: 14),
-                          text:
-                              '${state.store.items[index].createdAt?.toIso8601String().substring(0, 10) ?? ''}',
-                        ),
-                      ],
-                    ),
+
+                  Text(
+                    '${state.store.items[index].createdAt?.toIso8601String().substring(0, 10) ?? ''}',
+                    style: const TextStyle(fontSize: 13, color: Colors.black54),
                   ),
                 ],
               ),
@@ -447,6 +426,35 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    VoidCallback onTap,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          // InkWell(
+          //   onTap: onTap,
+          //   child: Text(
+          //     'See All',
+          //     style: TextStyle(
+          //       color: Theme.of(context).primaryColor,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

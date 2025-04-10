@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:itq_utils/itq_utils.dart';
 import 'package:stafup/feature/screen/home/bloc/home_bloc.dart';
 import 'package:stafup/feature/screen/profile/bloc/profile_bloc.dart';
 import 'package:stafup/utils/fh_app_bloc_observer.dart';
@@ -35,15 +36,30 @@ import 'feature/authentication/presentation/verify_gst_number.dart';
 import 'feature/bottom_navigation.dart';
 import 'feature/screen/home/presentation/home_page.dart';
 import 'feature/screen/profile/presentation/job_update_page.dart';
+import 'utils/logger.dart';
+import 'utils/fh_global_function.dart';
+import 'package:stafup/feature/screen/company_profile/bloc/company_profile_bloc.dart';
+import 'package:stafup/feature/screen/company_profile/data/repository/company_profile_repository.dart';
 
 Future<void> mainCommon(Env env) async {
-  appConfig = IAppConfig.init(env);
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  LoggerHelper.initialize();
-  await initialize();
-  Bloc.observer = AppBlocObserver();
-  setupLocator();
+  AppLoggerHelper.initialize();
+  AppLoggerHelper.debug('mainCommon');
+
+  try {
+    appConfig = IAppConfig.init(env);
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  } catch (e) {
+    AppLoggerHelper.error('mainCommon', e);
+  }
+
+  try {
+    await initialize();
+    Bloc.observer = AppBlocObserver();
+    setupLocator();
+  } catch (e) {
+    AppLoggerHelper.error('initialize', e);
+  }
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -53,6 +69,12 @@ Future<void> mainCommon(Env env) async {
     ),
   );
   runApp(MyApp());
+  // runApp(
+  //   MaterialApp(
+  //     // Run a minimal app instead
+  //     home: Scaffold(body: Center(child: Text('Minimal App Test'))),
+  //   ),
+  // );
 }
 
 class MyApp extends StatelessWidget {
@@ -93,6 +115,9 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (BuildContext context) => getIt<HomeBloc>(),
                 child: HomePage(),
+              ),
+              BlocProvider<CompanyProfileBloc>(
+                create: (context) => CompanyProfileBloc(CompanyProfileRepository()),
               ),
             ],
             child: Consumer<ColorNotifier>(

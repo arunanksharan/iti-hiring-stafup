@@ -12,6 +12,7 @@ import 'package:stafup/utils/fh_constant.dart';
 import 'package:stafup/utils/fh_global_widgets.dart';
 import 'package:stafup/feature/bottom_navigation.dart';
 import 'package:stafup/feature/authentication/bloc/auth_bloc.dart';
+import 'package:stafup/feature/authentication/presentation/enter_number.dart';
 
 class OTPVerification extends StatefulWidget {
   final String tag = '/OTPVerification';
@@ -102,7 +103,7 @@ class OTPVerificationState extends State<OTPVerification> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Welcome to Seeker',
+                      'Welcome to Stafup',
                       style: textTheme.displayMedium?.copyWith(
                         color: colorScheme.primary,
                       ),
@@ -110,7 +111,7 @@ class OTPVerificationState extends State<OTPVerification> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Find your perfect job opportunity',
+                      'Find your perfect candidates',
                       style: textTheme.bodyLarge?.copyWith(
                         color: colorScheme.onSurface.withAlpha(153),
                       ),
@@ -196,7 +197,7 @@ class OTPVerificationState extends State<OTPVerification> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'No account found. Please call\n08035736454 to register',
+                                'No account found. Please call\n08035736733 to register',
                                 textAlign: TextAlign.center,
                                 style: textTheme.bodyLarge?.copyWith(
                                   color: Colors.red.shade900,

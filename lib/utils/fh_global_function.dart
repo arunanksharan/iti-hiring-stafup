@@ -11,6 +11,7 @@ import 'package:stafup/feature/bottom_navigation.dart';
 import 'fh_colors.dart';
 import 'fh_constant.dart';
 import 'logger.dart';
+import 'package:itq_utils/itq_utils.dart';
 
 String generateMd5(String input) {
   return md5.convert(utf8.encode(input)).toString();

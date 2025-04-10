@@ -41,8 +41,8 @@ class SplashScreenState extends State<SplashScreen>
       body: Center(
         child: Image.asset(
           'assets/images/logo.png',
-          height: Get.height * 2,
-          width: Get.width * 2,
+          height: 96,
+          width: 96,
           errorBuilder:
               (context, error, stackTrace) =>
                   const Icon(Icons.image_not_supported, size: 100),

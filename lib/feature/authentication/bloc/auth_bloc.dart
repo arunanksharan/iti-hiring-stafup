@@ -6,7 +6,10 @@ import 'package:stafup/feature/authentication/data/model/create_company_model.da
 import 'package:stafup/feature/authentication/data/model/auth_model.dart';
 import 'package:stafup/feature/authentication/data/model/exchange_token_model.dart';
 import 'package:stafup/feature/authentication/data/repository/auth_repository.dart';
+import 'package:stafup/utils/fh_constant.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -135,12 +138,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         gstNumber: event.gstNumber,
         address: event.address,
       );
-
-      emit(
-        AuthState.createCompanySuccess(
-          store: state.store.copyWith(loading: false, createCompanyModel: data),
-        ),
-      );
+      
+      // Save company ID to shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      if (data.id != null) {
+        await prefs.setString(companyId, data.id!);
+        
+        // Instead of creating new objects, let's just directly update the state
+        emit(
+          AuthState.createCompanySuccess(
+            store: state.store.copyWith(
+              loading: false, 
+              createCompanyModel: data,
+            ),
+          ),
+        );
+      } else {
+        emit(
+          AuthState.createCompanySuccess(
+            store: state.store.copyWith(loading: false, createCompanyModel: data),
+          ),
+        );
+      }
     } catch (e) {
       emit(
         AuthState.createCompanyError(

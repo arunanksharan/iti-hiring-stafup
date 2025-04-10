@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:itq_utils/itq_utils.dart';
+import 'package:stafup/utils/fh_constant.dart' as constants;
 
 import '../data/model/job_model.dart';
 import '../data/repository/home_repository.dart';
@@ -23,6 +26,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onFetchJobs(FetchJobs event, Emitter<HomeState> emit) async {
     try {
+      // Validate company ID
+      final String? companyId = event.companyId;
+      if (companyId == null || companyId.isEmpty) {
+        throw Exception("Company ID is missing. Please ensure you are logged in with a company account.");
+      }
+
       // Get current store
       final currentStore = state.store;
 
@@ -31,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Fetch data with pagination parameters
       final result = await _homeRepository.fetchJobs(
-        companyId: event.companyId!,
+        companyId: companyId,
         page: currentStore.currentPage,
         pageSize: currentStore.pageSize,
       );
@@ -56,6 +65,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
+      // Validate company ID
+      final String? companyId = event.companyId;
+      if (companyId == null || companyId.isEmpty) {
+        throw Exception("Company ID is missing. Please ensure you are logged in with a company account.");
+      }
+      
       // Reset pagination and store
       final resetStore = state.store.copyWith(
         currentPage: 1,
@@ -67,7 +82,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Fetch first page
       final result = await _homeRepository.fetchJobs(
-        companyId: event.companyId!,
+        companyId: companyId,
         page: 1,
         pageSize: resetStore.pageSize,
       );
@@ -89,6 +104,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onNextPage(NextPage event, Emitter<HomeState> emit) async {
     try {
+      // Get company ID from event or shared preferences
+      String companyId = event.companyId ?? '';
+      if (companyId.isEmpty) {
+        companyId = getStringAsync(constants.companyId);
+      }
+      
+      // Validate company ID
+      if (companyId.isEmpty) {
+        throw Exception("Company ID is missing. Please ensure you are logged in with a company account.");
+      }
+
       // Calculate next page
       final currentStore = state.store;
       final nextPage = currentStore.currentPage + 1;
@@ -105,7 +131,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Fetch next page
       final result = await _homeRepository.fetchJobs(
-        companyId: event.companyId ?? '',
+        companyId: companyId,
         page: nextPage,
         pageSize: currentStore.pageSize,
       );
@@ -133,6 +159,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
+      // Get company ID from event or shared preferences
+      String companyId = event.companyId ?? '';
+      if (companyId.isEmpty) {
+        companyId = getStringAsync(constants.companyId);
+      }
+      
+      // Validate company ID
+      if (companyId.isEmpty) {
+        throw Exception("Company ID is missing. Please ensure you are logged in with a company account.");
+      }
+
       // Get current store
       final currentStore = state.store;
 
@@ -147,7 +184,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Fetch previous page
       final result = await _homeRepository.fetchJobs(
-        companyId: event.companyId ?? '',
+        companyId: companyId,
         page: previousPage,
         pageSize: currentStore.pageSize,
       );
@@ -200,4 +237,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   //   } catch (e) {
   //     emit(Error(state.store.copyWith(loading: false), e.toString()));
   //   }
+  // }
 }
