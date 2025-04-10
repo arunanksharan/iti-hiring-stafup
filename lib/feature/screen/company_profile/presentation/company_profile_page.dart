@@ -103,6 +103,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: false,
         title: Text(
           'Company Profile',
           style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -133,14 +134,18 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                       onPressed: () {
                         setState(() {
                           isEditing = false;
-                          
+
                           // Reset controllers to original values
                           if (state is CompanyProfileLoaded) {
-                            nameController.text = state.companyProfile.name ?? '';
-                            addressController.text = state.companyProfile.address ?? '';
+                            nameController.text =
+                                state.companyProfile.name ?? '';
+                            addressController.text =
+                                state.companyProfile.address ?? '';
                           } else if (state is CompanyProfileUpdated) {
-                            nameController.text = state.companyProfile.name ?? '';
-                            addressController.text = state.companyProfile.address ?? '';
+                            nameController.text =
+                                state.companyProfile.name ?? '';
+                            addressController.text =
+                                state.companyProfile.address ?? '';
                           }
                         });
                       },
@@ -158,11 +163,14 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
               // If not editing, show the Edit button
               return TextButton(
-                onPressed: state is CompanyProfileLoading ? null : () {
-                  setState(() {
-                    isEditing = true;
-                  });
-                },
+                onPressed:
+                    state is CompanyProfileLoading
+                        ? null
+                        : () {
+                          setState(() {
+                            isEditing = true;
+                          });
+                        },
                 child: Text(
                   'Edit',
                   style: textTheme.titleMedium?.copyWith(
@@ -253,12 +261,20 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     controller: nameController,
                     enabled: isEditing,
                     decoration: InputDecoration(
-                      // hintText: 'Enter company name',
-                      // border: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(8),
-                      // ),
-                      filled: !isEditing,
-                      fillColor: isEditing ? null : Colors.grey.shade50,
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[100]!),
+                      ),
+                      filled: true,
+                      fillColor: isEditing ? Colors.white : Colors.grey[50],
+                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isEditing ? Colors.black : Colors.grey[700],
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -282,13 +298,16 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     initialValue: gstNumber ?? '',
                     enabled: false,
                     decoration: InputDecoration(
-                      // hintText: 'GST Number',
-                      // border: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(8),
-                      // ),
+                      border: const OutlineInputBorder(),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[100]!),
+                      ),
                       filled: true,
-                      fillColor: Colors.grey.shade50,
+                      fillColor: Colors.grey[50],
                     ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge?.copyWith(color: Colors.grey[700]),
                   ),
                   const SizedBox(height: 16),
 
@@ -306,12 +325,20 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     enabled: isEditing,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      // hintText: 'Enter company address',
-                      // border: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(8),
-                      // ),
-                      filled: !isEditing,
-                      fillColor: isEditing ? null : Colors.grey.shade50,
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[100]!),
+                      ),
+                      filled: true,
+                      fillColor: isEditing ? Colors.white : Colors.grey[50],
+                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isEditing ? Colors.black : Colors.grey[700],
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
