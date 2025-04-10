@@ -207,12 +207,18 @@ class AuthRepository {
 
       final Map<String, dynamic> jsonMap = response.data;
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (jsonMap[ApiVariables.success] == true) {
-          return CreateCompanyModel.fromJson(jsonMap['data']);
+        // Check if response has a success field
+        if (jsonMap.containsKey(ApiVariables.success)) {
+          if (jsonMap[ApiVariables.success] == true) {
+            return CreateCompanyModel.fromJson(jsonMap['data']);
+          } else {
+            throw Exception(
+              jsonMap[ApiVariables.message] ?? 'Unknown error occurred',
+            );
+          }
         } else {
-          throw Exception(
-            jsonMap[ApiVariables.message] ?? 'Unknown error occurred',
-          );
+          // Direct response without success field, parse the response directly
+          return CreateCompanyModel.fromJson(jsonMap);
         }
       } else {
         throw Exception(

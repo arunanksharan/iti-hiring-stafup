@@ -38,6 +38,8 @@ import 'feature/screen/home/presentation/home_page.dart';
 import 'feature/screen/profile/presentation/job_update_page.dart';
 import 'utils/logger.dart';
 import 'utils/fh_global_function.dart';
+import 'package:stafup/feature/screen/company_profile/bloc/company_profile_bloc.dart';
+import 'package:stafup/feature/screen/company_profile/data/repository/company_profile_repository.dart';
 
 Future<void> mainCommon(Env env) async {
   AppLoggerHelper.initialize();
@@ -113,6 +115,9 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (BuildContext context) => getIt<HomeBloc>(),
                 child: HomePage(),
+              ),
+              BlocProvider<CompanyProfileBloc>(
+                create: (context) => CompanyProfileBloc(CompanyProfileRepository()),
               ),
             ],
             child: Consumer<ColorNotifier>(

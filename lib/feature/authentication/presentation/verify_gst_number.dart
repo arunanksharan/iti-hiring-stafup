@@ -35,7 +35,11 @@ class VerifyGstNumberState extends State<VerifyGstNumber> {
         if (state is CreateCompanySuccess) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => BottomNavigation()),
+            MaterialPageRoute(
+              builder: (context) => BottomNavigation(
+                companyId: state.store.createCompanyModel?.id,
+              ),
+            ),
             (Route<dynamic> route) => false,
           );
         }

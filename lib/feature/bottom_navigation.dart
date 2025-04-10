@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stafup/feature/screen/home/presentation/home_page.dart';
-import 'package:stafup/feature/screen/profile/presentation/job_update_page.dart';
+import 'package:stafup/feature/screen/company_profile/presentation/company_profile_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -19,7 +19,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
   );
 
   List<Widget> _buildScreens() {
-    return [HomePage(companyId: widget.companyId), JobUpdatePage()];
+    return [
+      HomePage(companyId: widget.companyId), 
+      CompanyProfilePage(companyId: widget.companyId)
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -31,8 +34,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person_outline_outlined),
-        title: ("Profile"),
+        icon: const Icon(Icons.business_outlined),
+        title: ("Company"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
       ),

@@ -33,9 +33,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(
-      HomeEvent.fetchJobs(getStringAsync(companyId)),
-    );
+    
+    // Use the companyId passed to the widget first, then fall back to shared preferences
+    final String? companyIdToUse = widget.companyId ?? getStringAsync(companyId);
+    
+    if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
+      context.read<HomeBloc>().add(
+        HomeEvent.fetchJobs(companyIdToUse),
+      );
+    } else {
+      // Handle the case where no company ID is available
+      debugPrint('Warning: No company ID available for job fetch');
+    }
   }
 
   void logout() async {
