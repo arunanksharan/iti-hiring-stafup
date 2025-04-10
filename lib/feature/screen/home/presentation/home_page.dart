@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:stafup/feature/authentication/presentation/enter_number.dart';
 import 'package:stafup/feature/screen/home/bloc/home_bloc.dart';
-import 'package:stafup/utils/fh_colors.dart';
 import 'package:itq_utils/itq_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../../utils/fh_color_provider.dart';
-import '../../../../utils/fh_constant.dart';
+import 'package:stafup/utils/fh_color_provider.dart';
+import 'package:stafup/utils/fh_constant.dart';
 import '../../profile/presentation/job_update_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,14 +32,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    
+
     // Use the companyId passed to the widget first, then fall back to shared preferences
-    final String? companyIdToUse = widget.companyId ?? getStringAsync(companyId);
-    
+    final String? companyIdToUse =
+        widget.companyId ?? getStringAsync(companyId);
+
     if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
-      context.read<HomeBloc>().add(
-        HomeEvent.fetchJobs(companyIdToUse),
-      );
+      context.read<HomeBloc>().add(HomeEvent.fetchJobs(companyIdToUse));
     } else {
       // Handle the case where no company ID is available
       debugPrint('Warning: No company ID available for job fetch');
@@ -98,13 +96,13 @@ class _HomePageState extends State<HomePage> {
             automaticallyImplyLeading: false,
             centerTitle: false,
             title: Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 4),
+              padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Hi!", style: textTheme.headlineMedium),
                   Text(
-                    'Find your dream job today',
+                    'Find your perfect candidate',
                     style: textTheme.bodyMedium?.copyWith(
                       color: colorScheme.onSurface.withAlpha(153),
                     ),
@@ -156,85 +154,59 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 16),
             ],
+            // Add bottom border to create visual separation
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Container(color: Colors.grey.shade200, height: 1.0),
+            ),
           ),
           body: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: HrmColors.black.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.orange,
-                      size: 30,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Create/Update Your Profile',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'Complete your profile to get better job recommendations.',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Profile reminder widget removed/disabled
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 2,
                 ),
-                child: TextFormField(
-                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                  controller: searchController,
-                  onChanged: (value) {
-                    if (value.length > 2) {
-                      context.read<HomeBloc>().add(HomeEvent.search(value));
-                    } else if (value.isEmpty) {
-                      context.read<HomeBloc>().add(
-                        HomeEvent.resetAndFetch(getStringAsync(companyId)),
-                      );
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: 'Search for jobs, skills, companies...',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  ),
-                ),
+                // child: TextFormField(
+                //   onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                //   controller: searchController,
+                //   onChanged: (value) {
+                //     if (value.length > 2) {
+                //       context.read<HomeBloc>().add(HomeEvent.search(value));
+                //     } else if (value.isEmpty) {
+                //       context.read<HomeBloc>().add(
+                //         HomeEvent.resetAndFetch(getStringAsync(companyId)),
+                //       );
+                //     }
+                //   },
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     enabledBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //       borderSide: BorderSide.none,
+                //     ),
+                //     hintText: 'Search for jobs, skills, companies...',
+                //     prefixIcon: Icon(Icons.search, color: Colors.grey),
+                //   ),
+                // ),
               ),
+              _buildSectionHeader(context, 'Your Job Postings', () {
+                // Show "Coming Soon" directly on tap
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Coming Soon!"),
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
+              }),
               Expanded(child: _buildListContent(context, state)),
               _buildPaginationControls(context, state),
             ],
@@ -348,53 +320,20 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     '${state.store.items[index].jobPosting?.jobRole ?? ''}',
-                    style: textTheme.titleLarge?.copyWith(
+                    style: textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
 
-                  RichText(
-                    text: TextSpan(
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.black87,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Name: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          style: TextStyle(fontSize: 14),
-                          text:
-                              '${state.store.items[index].jobPosting?.personName ?? ''}',
-                        ),
-                      ],
-                    ),
+                  Text(
+                    '${state.store.items[index].jobPosting?.personName ?? ''}',
+                    style: const TextStyle(fontSize: 13, color: Colors.black87),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.black87,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Created At: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          style: TextStyle(fontSize: 14),
-                          text:
-                              '${state.store.items[index].createdAt?.toIso8601String().substring(0, 10) ?? ''}',
-                        ),
-                      ],
-                    ),
+
+                  Text(
+                    '${state.store.items[index].createdAt?.toIso8601String().substring(0, 10) ?? ''}',
+                    style: const TextStyle(fontSize: 13, color: Colors.black54),
                   ),
                 ],
               ),
@@ -456,6 +395,35 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    VoidCallback onTap,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          // InkWell(
+          //   onTap: onTap,
+          //   child: Text(
+          //     'See All',
+          //     style: TextStyle(
+          //       color: Theme.of(context).primaryColor,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

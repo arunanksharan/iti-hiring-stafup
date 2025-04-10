@@ -1,9 +1,7 @@
 // In job_details_repository.dart
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:stafup/feature/screen/home/data/model/job_model.dart';
+import 'package:stafup/utils/logger.dart';
 
 import '../../../../../api_service/api_strings.dart';
 import '../../../../../api_service/dio_client.dart';
@@ -15,6 +13,9 @@ class HomeRepository {
     int pageSize = 50,
   }) async {
     try {
+      AppLoggerHelper.info(
+        "Fetching jobs for company: $companyId, page: $page, page_size: $pageSize",
+      );
       final response = await DioClient.perform(
         '${ApiStrings.company}/$companyId/job_posting/list?page=$page&page_size=$pageSize',
         ApiMethods.get,
@@ -30,7 +31,7 @@ class HomeRepository {
         );
       }
     } catch (error) {
-      debugPrint('Error fetching jobs: $error');
+      AppLoggerHelper.error('Error fetching jobs: $error');
       throw Exception('Failed to load data');
     }
   }
