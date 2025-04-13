@@ -6,14 +6,15 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.sendOTP({required String phoneNumber}) = SendOTP;
   const factory AuthEvent.verifyOTP({
     required String verificationId,
-    required String otp
+    required String otp,
   }) = VerifyOTP;
 
-  const factory AuthEvent.exchangeToken({required String phoneNumber}) = _ExchangeToken;
+  const factory AuthEvent.exchangeToken({required String phoneNumber}) =
+      _ExchangeToken;
   const factory AuthEvent.createCompanyEvent({
     String? name,
     required String gstNumber,
+    required String email,
     String? address,
-}) = _CreateCompanyEvent;
-
+  }) = _CreateCompanyEvent;
 }

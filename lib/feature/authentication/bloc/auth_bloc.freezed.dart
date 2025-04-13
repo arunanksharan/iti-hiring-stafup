@@ -23,7 +23,12 @@ mixin _$AuthEvent {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,7 +37,12 @@ mixin _$AuthEvent {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,7 +51,12 @@ mixin _$AuthEvent {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -139,7 +154,12 @@ class _$StartedImpl implements _Started {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) {
     return started();
@@ -152,7 +172,12 @@ class _$StartedImpl implements _Started {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) {
     return started?.call();
@@ -165,7 +190,12 @@ class _$StartedImpl implements _Started {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) {
@@ -296,7 +326,12 @@ class _$SendOTPImpl implements SendOTP {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) {
     return sendOTP(phoneNumber);
@@ -309,7 +344,12 @@ class _$SendOTPImpl implements SendOTP {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) {
     return sendOTP?.call(phoneNumber);
@@ -322,7 +362,12 @@ class _$SendOTPImpl implements SendOTP {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) {
@@ -469,7 +514,12 @@ class _$VerifyOTPImpl implements VerifyOTP {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) {
     return verifyOTP(verificationId, otp);
@@ -482,7 +532,12 @@ class _$VerifyOTPImpl implements VerifyOTP {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) {
     return verifyOTP?.call(verificationId, otp);
@@ -495,7 +550,12 @@ class _$VerifyOTPImpl implements VerifyOTP {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) {
@@ -638,7 +698,12 @@ class _$ExchangeTokenImpl implements _ExchangeToken {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) {
     return exchangeToken(phoneNumber);
@@ -651,7 +716,12 @@ class _$ExchangeTokenImpl implements _ExchangeToken {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) {
     return exchangeToken?.call(phoneNumber);
@@ -664,7 +734,12 @@ class _$ExchangeTokenImpl implements _ExchangeToken {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) {
@@ -735,7 +810,7 @@ abstract class _$$CreateCompanyEventImplCopyWith<$Res> {
     $Res Function(_$CreateCompanyEventImpl) then,
   ) = __$$CreateCompanyEventImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? name, String gstNumber, String? address});
+  $Res call({String? name, String gstNumber, String email, String? address});
 }
 
 /// @nodoc
@@ -754,6 +829,7 @@ class __$$CreateCompanyEventImplCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? gstNumber = null,
+    Object? email = null,
     Object? address = freezed,
   }) {
     return _then(
@@ -767,6 +843,11 @@ class __$$CreateCompanyEventImplCopyWithImpl<$Res>
             null == gstNumber
                 ? _value.gstNumber
                 : gstNumber // ignore: cast_nullable_to_non_nullable
+                    as String,
+        email:
+            null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
                     as String,
         address:
             freezed == address
@@ -784,6 +865,7 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
   const _$CreateCompanyEventImpl({
     this.name,
     required this.gstNumber,
+    required this.email,
     this.address,
   });
 
@@ -792,11 +874,13 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
   @override
   final String gstNumber;
   @override
+  final String email;
+  @override
   final String? address;
 
   @override
   String toString() {
-    return 'AuthEvent.createCompanyEvent(name: $name, gstNumber: $gstNumber, address: $address)';
+    return 'AuthEvent.createCompanyEvent(name: $name, gstNumber: $gstNumber, email: $email, address: $address)';
   }
 
   @override
@@ -807,11 +891,12 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.gstNumber, gstNumber) ||
                 other.gstNumber == gstNumber) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.address, address) || other.address == address));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, gstNumber, address);
+  int get hashCode => Object.hash(runtimeType, name, gstNumber, email, address);
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -831,10 +916,15 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
     required TResult Function(String phoneNumber) sendOTP,
     required TResult Function(String verificationId, String otp) verifyOTP,
     required TResult Function(String phoneNumber) exchangeToken,
-    required TResult Function(String? name, String gstNumber, String? address)
+    required TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )
     createCompanyEvent,
   }) {
-    return createCompanyEvent(name, gstNumber, address);
+    return createCompanyEvent(name, gstNumber, email, address);
   }
 
   @override
@@ -844,10 +934,15 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
     TResult? Function(String phoneNumber)? sendOTP,
     TResult? Function(String verificationId, String otp)? verifyOTP,
     TResult? Function(String phoneNumber)? exchangeToken,
-    TResult? Function(String? name, String gstNumber, String? address)?
+    TResult? Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
   }) {
-    return createCompanyEvent?.call(name, gstNumber, address);
+    return createCompanyEvent?.call(name, gstNumber, email, address);
   }
 
   @override
@@ -857,12 +952,17 @@ class _$CreateCompanyEventImpl implements _CreateCompanyEvent {
     TResult Function(String phoneNumber)? sendOTP,
     TResult Function(String verificationId, String otp)? verifyOTP,
     TResult Function(String phoneNumber)? exchangeToken,
-    TResult Function(String? name, String gstNumber, String? address)?
+    TResult Function(
+      String? name,
+      String gstNumber,
+      String email,
+      String? address,
+    )?
     createCompanyEvent,
     required TResult orElse(),
   }) {
     if (createCompanyEvent != null) {
-      return createCompanyEvent(name, gstNumber, address);
+      return createCompanyEvent(name, gstNumber, email, address);
     }
     return orElse();
   }
@@ -912,11 +1012,13 @@ abstract class _CreateCompanyEvent implements AuthEvent {
   const factory _CreateCompanyEvent({
     final String? name,
     required final String gstNumber,
+    required final String email,
     final String? address,
   }) = _$CreateCompanyEventImpl;
 
   String? get name;
   String get gstNumber;
+  String get email;
   String? get address;
 
   /// Create a copy of AuthEvent
@@ -937,10 +1039,16 @@ mixin _$AuthState {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -950,10 +1058,15 @@ mixin _$AuthState {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -963,10 +1076,15 @@ mixin _$AuthState {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1148,10 +1266,16 @@ class _$InitialImpl implements Initial {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return initial(store);
   }
@@ -1165,10 +1289,15 @@ class _$InitialImpl implements Initial {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return initial?.call(store);
   }
@@ -1182,10 +1311,15 @@ class _$InitialImpl implements Initial {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1347,10 +1481,16 @@ class _$LoadingImpl implements Loading {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return loading(store);
   }
@@ -1364,10 +1504,15 @@ class _$LoadingImpl implements Loading {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return loading?.call(store);
   }
@@ -1381,10 +1526,15 @@ class _$LoadingImpl implements Loading {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1546,10 +1696,16 @@ class _$OTPSentImpl implements OTPSent {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return otpSent(store);
   }
@@ -1563,10 +1719,15 @@ class _$OTPSentImpl implements OTPSent {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return otpSent?.call(store);
   }
@@ -1580,10 +1741,15 @@ class _$OTPSentImpl implements OTPSent {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (otpSent != null) {
@@ -1745,10 +1911,16 @@ class _$OTPVerifiedImpl implements OTPVerified {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return otpVerified(store);
   }
@@ -1762,10 +1934,15 @@ class _$OTPVerifiedImpl implements OTPVerified {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return otpVerified?.call(store);
   }
@@ -1779,10 +1956,15 @@ class _$OTPVerifiedImpl implements OTPVerified {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (otpVerified != null) {
@@ -1949,10 +2131,16 @@ class _$ExchangeTokenVerifiedImpl implements ExchangeTokenVerified {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return exchangeTokenVerified(store);
   }
@@ -1966,10 +2154,15 @@ class _$ExchangeTokenVerifiedImpl implements ExchangeTokenVerified {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return exchangeTokenVerified?.call(store);
   }
@@ -1983,10 +2176,15 @@ class _$ExchangeTokenVerifiedImpl implements ExchangeTokenVerified {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (exchangeTokenVerified != null) {
@@ -2153,10 +2351,16 @@ class _$CreateCompanySuccessImpl implements CreateCompanySuccess {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return createCompanySuccess(store);
   }
@@ -2170,10 +2374,15 @@ class _$CreateCompanySuccessImpl implements CreateCompanySuccess {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return createCompanySuccess?.call(store);
   }
@@ -2187,10 +2396,15 @@ class _$CreateCompanySuccessImpl implements CreateCompanySuccess {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (createCompanySuccess != null) {
@@ -2279,7 +2493,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
   ) = __$$ErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthStateStore store});
+  $Res call({AuthStateStore store, bool isAccountNotFound});
 
   @override
   $AuthStateStoreCopyWith<$Res> get store;
@@ -2298,7 +2512,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? store = null}) {
+  $Res call({Object? store = null, Object? isAccountNotFound = null}) {
     return _then(
       _$ErrorImpl(
         store:
@@ -2306,6 +2520,11 @@ class __$$ErrorImplCopyWithImpl<$Res>
                 ? _value.store
                 : store // ignore: cast_nullable_to_non_nullable
                     as AuthStateStore,
+        isAccountNotFound:
+            null == isAccountNotFound
+                ? _value.isAccountNotFound
+                : isAccountNotFound // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -2314,14 +2533,17 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements Error {
-  const _$ErrorImpl({required this.store});
+  const _$ErrorImpl({required this.store, this.isAccountNotFound = false});
 
   @override
   final AuthStateStore store;
+  @override
+  @JsonKey()
+  final bool isAccountNotFound;
 
   @override
   String toString() {
-    return 'AuthState.error(store: $store)';
+    return 'AuthState.error(store: $store, isAccountNotFound: $isAccountNotFound)';
   }
 
   @override
@@ -2329,11 +2551,13 @@ class _$ErrorImpl implements Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.store, store) || other.store == store));
+            (identical(other.store, store) || other.store == store) &&
+            (identical(other.isAccountNotFound, isAccountNotFound) ||
+                other.isAccountNotFound == isAccountNotFound));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, store);
+  int get hashCode => Object.hash(runtimeType, store, isAccountNotFound);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -2352,12 +2576,18 @@ class _$ErrorImpl implements Error {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
-    return error(store);
+    return error(store, isAccountNotFound);
   }
 
   @override
@@ -2369,12 +2599,17 @@ class _$ErrorImpl implements Error {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
-    return error?.call(store);
+    return error?.call(store, isAccountNotFound);
   }
 
   @override
@@ -2386,14 +2621,19 @@ class _$ErrorImpl implements Error {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(store);
+      return error(store, isAccountNotFound);
     }
     return orElse();
   }
@@ -2456,10 +2696,14 @@ class _$ErrorImpl implements Error {
 }
 
 abstract class Error implements AuthState {
-  const factory Error({required final AuthStateStore store}) = _$ErrorImpl;
+  const factory Error({
+    required final AuthStateStore store,
+    final bool isAccountNotFound,
+  }) = _$ErrorImpl;
 
   @override
   AuthStateStore get store;
+  bool get isAccountNotFound;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -2554,10 +2798,16 @@ class _$PhoneNumberErrorImpl implements PhoneNumberError {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return phoneNumberError(store);
   }
@@ -2571,10 +2821,15 @@ class _$PhoneNumberErrorImpl implements PhoneNumberError {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return phoneNumberError?.call(store);
   }
@@ -2588,10 +2843,15 @@ class _$PhoneNumberErrorImpl implements PhoneNumberError {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (phoneNumberError != null) {
@@ -2757,10 +3017,16 @@ class _$OtpVerifiedErrorImpl implements OtpVerifiedError {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
     return otpVerifiedError(store);
   }
@@ -2774,10 +3040,15 @@ class _$OtpVerifiedErrorImpl implements OtpVerifiedError {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
     return otpVerifiedError?.call(store);
   }
@@ -2791,10 +3062,15 @@ class _$OtpVerifiedErrorImpl implements OtpVerifiedError {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (otpVerifiedError != null) {
@@ -2884,7 +3160,11 @@ abstract class _$$CreateCompanyErrorImplCopyWith<$Res>
   ) = __$$CreateCompanyErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthStateStore store});
+  $Res call({
+    AuthStateStore store,
+    String? companyExistsMessage,
+    String? maskedPhoneNumber,
+  });
 
   @override
   $AuthStateStoreCopyWith<$Res> get store;
@@ -2903,7 +3183,11 @@ class __$$CreateCompanyErrorImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? store = null}) {
+  $Res call({
+    Object? store = null,
+    Object? companyExistsMessage = freezed,
+    Object? maskedPhoneNumber = freezed,
+  }) {
     return _then(
       _$CreateCompanyErrorImpl(
         store:
@@ -2911,6 +3195,16 @@ class __$$CreateCompanyErrorImplCopyWithImpl<$Res>
                 ? _value.store
                 : store // ignore: cast_nullable_to_non_nullable
                     as AuthStateStore,
+        companyExistsMessage:
+            freezed == companyExistsMessage
+                ? _value.companyExistsMessage
+                : companyExistsMessage // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        maskedPhoneNumber:
+            freezed == maskedPhoneNumber
+                ? _value.maskedPhoneNumber
+                : maskedPhoneNumber // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -2919,14 +3213,22 @@ class __$$CreateCompanyErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreateCompanyErrorImpl implements CreateCompanyError {
-  const _$CreateCompanyErrorImpl({required this.store});
+  const _$CreateCompanyErrorImpl({
+    required this.store,
+    this.companyExistsMessage,
+    this.maskedPhoneNumber,
+  });
 
   @override
   final AuthStateStore store;
+  @override
+  final String? companyExistsMessage;
+  @override
+  final String? maskedPhoneNumber;
 
   @override
   String toString() {
-    return 'AuthState.createCompanyError(store: $store)';
+    return 'AuthState.createCompanyError(store: $store, companyExistsMessage: $companyExistsMessage, maskedPhoneNumber: $maskedPhoneNumber)';
   }
 
   @override
@@ -2934,11 +3236,16 @@ class _$CreateCompanyErrorImpl implements CreateCompanyError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateCompanyErrorImpl &&
-            (identical(other.store, store) || other.store == store));
+            (identical(other.store, store) || other.store == store) &&
+            (identical(other.companyExistsMessage, companyExistsMessage) ||
+                other.companyExistsMessage == companyExistsMessage) &&
+            (identical(other.maskedPhoneNumber, maskedPhoneNumber) ||
+                other.maskedPhoneNumber == maskedPhoneNumber));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, store);
+  int get hashCode =>
+      Object.hash(runtimeType, store, companyExistsMessage, maskedPhoneNumber);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -2960,12 +3267,18 @@ class _$CreateCompanyErrorImpl implements CreateCompanyError {
     required TResult Function(AuthStateStore store) otpVerified,
     required TResult Function(AuthStateStore store) exchangeTokenVerified,
     required TResult Function(AuthStateStore store) createCompanySuccess,
-    required TResult Function(AuthStateStore store) error,
+    required TResult Function(AuthStateStore store, bool isAccountNotFound)
+    error,
     required TResult Function(AuthStateStore store) phoneNumberError,
     required TResult Function(AuthStateStore store) otpVerifiedError,
-    required TResult Function(AuthStateStore store) createCompanyError,
+    required TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )
+    createCompanyError,
   }) {
-    return createCompanyError(store);
+    return createCompanyError(store, companyExistsMessage, maskedPhoneNumber);
   }
 
   @override
@@ -2977,12 +3290,21 @@ class _$CreateCompanyErrorImpl implements CreateCompanyError {
     TResult? Function(AuthStateStore store)? otpVerified,
     TResult? Function(AuthStateStore store)? exchangeTokenVerified,
     TResult? Function(AuthStateStore store)? createCompanySuccess,
-    TResult? Function(AuthStateStore store)? error,
+    TResult? Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult? Function(AuthStateStore store)? phoneNumberError,
     TResult? Function(AuthStateStore store)? otpVerifiedError,
-    TResult? Function(AuthStateStore store)? createCompanyError,
+    TResult? Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
   }) {
-    return createCompanyError?.call(store);
+    return createCompanyError?.call(
+      store,
+      companyExistsMessage,
+      maskedPhoneNumber,
+    );
   }
 
   @override
@@ -2994,14 +3316,19 @@ class _$CreateCompanyErrorImpl implements CreateCompanyError {
     TResult Function(AuthStateStore store)? otpVerified,
     TResult Function(AuthStateStore store)? exchangeTokenVerified,
     TResult Function(AuthStateStore store)? createCompanySuccess,
-    TResult Function(AuthStateStore store)? error,
+    TResult Function(AuthStateStore store, bool isAccountNotFound)? error,
     TResult Function(AuthStateStore store)? phoneNumberError,
     TResult Function(AuthStateStore store)? otpVerifiedError,
-    TResult Function(AuthStateStore store)? createCompanyError,
+    TResult Function(
+      AuthStateStore store,
+      String? companyExistsMessage,
+      String? maskedPhoneNumber,
+    )?
+    createCompanyError,
     required TResult orElse(),
   }) {
     if (createCompanyError != null) {
-      return createCompanyError(store);
+      return createCompanyError(store, companyExistsMessage, maskedPhoneNumber);
     }
     return orElse();
   }
@@ -3064,11 +3391,16 @@ class _$CreateCompanyErrorImpl implements CreateCompanyError {
 }
 
 abstract class CreateCompanyError implements AuthState {
-  const factory CreateCompanyError({required final AuthStateStore store}) =
-      _$CreateCompanyErrorImpl;
+  const factory CreateCompanyError({
+    required final AuthStateStore store,
+    final String? companyExistsMessage,
+    final String? maskedPhoneNumber,
+  }) = _$CreateCompanyErrorImpl;
 
   @override
   AuthStateStore get store;
+  String? get companyExistsMessage;
+  String? get maskedPhoneNumber;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -3083,7 +3415,7 @@ mixin _$AuthStateStore {
   bool get loading => throw _privateConstructorUsedError;
   String get verificationId => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
-  String get errorMessage => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
   CreateCompanyModel? get createCompanyModel =>
       throw _privateConstructorUsedError;
   ExchangeTokenModel? get exchangeTokenModel =>
@@ -3108,7 +3440,7 @@ abstract class $AuthStateStoreCopyWith<$Res> {
     bool loading,
     String verificationId,
     String phoneNumber,
-    String errorMessage,
+    String? errorMessage,
     CreateCompanyModel? createCompanyModel,
     ExchangeTokenModel? exchangeTokenModel,
     UserModel? user,
@@ -3133,7 +3465,7 @@ class _$AuthStateStoreCopyWithImpl<$Res, $Val extends AuthStateStore>
     Object? loading = null,
     Object? verificationId = null,
     Object? phoneNumber = null,
-    Object? errorMessage = null,
+    Object? errorMessage = freezed,
     Object? createCompanyModel = freezed,
     Object? exchangeTokenModel = freezed,
     Object? user = freezed,
@@ -3156,10 +3488,10 @@ class _$AuthStateStoreCopyWithImpl<$Res, $Val extends AuthStateStore>
                     : phoneNumber // ignore: cast_nullable_to_non_nullable
                         as String,
             errorMessage:
-                null == errorMessage
+                freezed == errorMessage
                     ? _value.errorMessage
                     : errorMessage // ignore: cast_nullable_to_non_nullable
-                        as String,
+                        as String?,
             createCompanyModel:
                 freezed == createCompanyModel
                     ? _value.createCompanyModel
@@ -3194,7 +3526,7 @@ abstract class _$$AuthStateStoreImplCopyWith<$Res>
     bool loading,
     String verificationId,
     String phoneNumber,
-    String errorMessage,
+    String? errorMessage,
     CreateCompanyModel? createCompanyModel,
     ExchangeTokenModel? exchangeTokenModel,
     UserModel? user,
@@ -3218,7 +3550,7 @@ class __$$AuthStateStoreImplCopyWithImpl<$Res>
     Object? loading = null,
     Object? verificationId = null,
     Object? phoneNumber = null,
-    Object? errorMessage = null,
+    Object? errorMessage = freezed,
     Object? createCompanyModel = freezed,
     Object? exchangeTokenModel = freezed,
     Object? user = freezed,
@@ -3241,10 +3573,10 @@ class __$$AuthStateStoreImplCopyWithImpl<$Res>
                 : phoneNumber // ignore: cast_nullable_to_non_nullable
                     as String,
         errorMessage:
-            null == errorMessage
+            freezed == errorMessage
                 ? _value.errorMessage
                 : errorMessage // ignore: cast_nullable_to_non_nullable
-                    as String,
+                    as String?,
         createCompanyModel:
             freezed == createCompanyModel
                 ? _value.createCompanyModel
@@ -3272,7 +3604,7 @@ class _$AuthStateStoreImpl implements _AuthStateStore {
     this.loading = false,
     this.verificationId = "",
     this.phoneNumber = "",
-    this.errorMessage = "",
+    this.errorMessage,
     this.createCompanyModel,
     this.exchangeTokenModel,
     this.user,
@@ -3288,8 +3620,7 @@ class _$AuthStateStoreImpl implements _AuthStateStore {
   @JsonKey()
   final String phoneNumber;
   @override
-  @JsonKey()
-  final String errorMessage;
+  final String? errorMessage;
   @override
   final CreateCompanyModel? createCompanyModel;
   @override
@@ -3350,7 +3681,7 @@ abstract class _AuthStateStore implements AuthStateStore {
     final bool loading,
     final String verificationId,
     final String phoneNumber,
-    final String errorMessage,
+    final String? errorMessage,
     final CreateCompanyModel? createCompanyModel,
     final ExchangeTokenModel? exchangeTokenModel,
     final UserModel? user,
@@ -3363,7 +3694,7 @@ abstract class _AuthStateStore implements AuthStateStore {
   @override
   String get phoneNumber;
   @override
-  String get errorMessage;
+  String? get errorMessage;
   @override
   CreateCompanyModel? get createCompanyModel;
   @override
