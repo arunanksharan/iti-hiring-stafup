@@ -13,7 +13,7 @@ class CompanyProfileRepository {
         '${ApiStrings.company}/$companyId/details',
         ApiMethods.get,
       );
-      
+
       final Map<String, dynamic> jsonMap = response.data;
 
       if (response.statusCode == 200) {
@@ -35,6 +35,8 @@ class CompanyProfileRepository {
     required String companyId,
     required String name,
     required String address,
+    required String email,
+    required String organisationType,
   }) async {
     try {
       final response = await DioClient.perform(
@@ -43,9 +45,11 @@ class CompanyProfileRepository {
         data: {
           ApiVariables.name: name,
           ApiVariables.address: address,
+          ApiVariables.email: email,
+          ApiVariables.organisationType: organisationType,
         },
       );
-      
+
       final Map<String, dynamic> jsonMap = response.data;
 
       if (response.statusCode == 200) {
