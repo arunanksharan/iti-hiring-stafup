@@ -1,5 +1,6 @@
 // In job_details_repository.dart
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -165,6 +166,11 @@ class AuthRepository {
         ApiMethods.post,
         body: {ApiVariables.phoneNumber: phone},
       );
+
+      AppLoggerHelper.info('170 Exchange token response: ${response.data}');
+      AppLoggerHelper.info(
+        '171 Exchange token status code: ${response.statusCode}',
+      );
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = response.data;
 
@@ -177,14 +183,76 @@ class AuthRepository {
         } else {
           throw Exception('Access token not found in response');
         }
+      } else if (response.statusCode == 404) {
+        // --- Handle Specific 404 Not Found Error ---
+        // This block is now reachable because DioException wasn't thrown for 404
+        final backendErrorMessage =
+            response.data is Map<String, dynamic>
+                ? response.data['detail'] ??
+                    response.data['message'] ??
+                    'Account not found via API.'
+                : 'Account not found via API.'; // Default message if body parsing fails
+        AppLoggerHelper.warning(
+          'Exchange token failed: Account not found (404). Backend message: $backendErrorMessage',
+        );
+        // Throw the specific exception format for the BLoC
+        throw Exception("NO_ACCOUNT_FOUND: $backendErrorMessage");
       } else {
         final errorMessage =
-            response.data[ApiVariables.message] ??
-            'Request failed with status: ${response.statusCode}';
-        throw Exception(errorMessage);
+            response.data is Map<String, dynamic>
+                ? response.data[ApiVariables.message] ??
+                    response.data['detail'] ??
+                    'Unknown server response'
+                : 'Request failed with status: ${response.statusCode}';
+        AppLoggerHelper.error(
+          'Exchange token failed with unexpected status ${response.statusCode}: $errorMessage',
+        );
+        throw Exception('API Error: $errorMessage');
       }
+    } on DioException catch (e) {
+      // --- Handle Dio errors (network, status codes other than 200) ---
+      AppLoggerHelper.error(
+        'DioException during exchange token: ${e.response?.statusCode} - ${e.response?.data}',
+        e,
+      );
+      AppLoggerHelper.error(
+        'DioException during exchange token: ${e.response?.statusCode} - ${e.response?.data}',
+        e,
+      );
+
+      // ***** START OF CHANGE *****
+      // Check specifically for 404 Not Found
+      if (e.response?.statusCode == 404) {
+        // Extract backend message if available
+        final backendErrorMessage =
+            e.response?.data is Map<String, dynamic>
+                ? e.response?.data['detail'] ??
+                    e.response?.data['message'] ??
+                    'Account not found via API.'
+                : 'Account not found via API.';
+        AppLoggerHelper.warning(
+          'Exchange token failed: Account not found (404). Backend message: $backendErrorMessage',
+        );
+        // Throw exception with specific prefix for BLoC to identify
+        throw Exception(
+          "NO_ACCOUNT_FOUND: $backendErrorMessage",
+        ); // <<< Specific Format
+      } else {
+        // Handle other Dio errors (e.g., 500, 401, 403, network timeouts)
+        final errorMessage =
+            e.response?.data is Map<String, dynamic>
+                ? e.response?.data['detail'] ??
+                    e.response?.data['message'] ??
+                    e.message
+                : e.message ?? 'Unknown network or server error.';
+        AppLoggerHelper.error(
+          'Exchange token failed with other Dio error: $errorMessage',
+        );
+        throw Exception('API Error: $errorMessage');
+      }
+      // ***** END OF CHANGE *****
     } catch (error) {
-      print("Exchange token error: $error");
+      AppLoggerHelper.error('Exchange token error: $error');
       throw Exception('Failed to exchange token: ${error.toString()}');
     }
   }
@@ -193,6 +261,7 @@ class AuthRepository {
     String? name,
     required String gstNumber,
     String? address,
+    required String email,
   }) async {
     try {
       final response = await DioClient.perform(
@@ -202,11 +271,12 @@ class AuthRepository {
           ApiVariables.name: name ?? '',
           ApiVariables.gstNumber: gstNumber,
           ApiVariables.address: address ?? '',
+          ApiVariables.email: email,
         },
       );
 
       final Map<String, dynamic> jsonMap = response.data;
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 201) {
         // Check if response has a success field
         if (jsonMap.containsKey(ApiVariables.success)) {
           if (jsonMap[ApiVariables.success] == true) {
@@ -220,7 +290,19 @@ class AuthRepository {
           // Direct response without success field, parse the response directly
           return CreateCompanyModel.fromJson(jsonMap);
         }
+      } else if (response.statusCode == 200) {
+        // Company Already Exists
+        AppLoggerHelper.warning('Company already exists: $jsonMap');
+        final existsResponse = CompanyExistsResponse.fromJson(jsonMap);
+        // Throw a specific exception to be caught by the Bloc
+        throw CompanyExistsException(
+          existsResponse.message,
+          existsResponse.assignedToPhoneNumber,
+        );
       } else {
+        AppLoggerHelper.error(
+          'Company creation failed with status ${response.statusCode}: ${response.data}',
+        );
         throw Exception(
           jsonMap[ApiVariables.message] ??
               'Request failed with status: ${response.statusCode}',
@@ -228,12 +310,30 @@ class AuthRepository {
       }
     } on DioException catch (dioError) {
       if (dioError.response != null && dioError.response?.data != null) {
+        // Check if the error response matches the CompanyExists structure (e.g., 409 Conflict might use this)
         final errorData = dioError.response?.data;
-        final errorMessage = errorData['detail'] ?? 'Unknown server error';
-        throw Exception(errorMessage);
+        if (errorData is Map<String, dynamic> &&
+            errorData.containsKey('message') &&
+            errorData['message'].toString().contains("COMPANY_EXISTS")) {
+          final existsResponse = CompanyExistsResponse.fromJson(errorData);
+          throw CompanyExistsException(
+            existsResponse.message,
+            existsResponse.assignedToPhoneNumber,
+          );
+        } else {
+          final errorMessage =
+              errorData is Map<String, dynamic>
+                  ? (errorData['detail'] ??
+                      errorData['message'] ??
+                      'Unknown server error')
+                  : dioError.message;
+          throw Exception(errorMessage);
+        }
       } else {
         throw Exception('Network error: ${dioError.message}');
       }
+    } on CompanyExistsException {
+      rethrow; // <<< Make sure to rethrow the specific exception
     } catch (e) {
       throw Exception('Failed to create company: ${e.toString()}');
     }
