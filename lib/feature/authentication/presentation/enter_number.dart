@@ -104,22 +104,57 @@ class _EnterNumberState extends State<EnterNumber> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    TextFormField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      maxLength: 15,
-                      enabled: !isLoading,
-                      decoration: const InputDecoration(counterText: ""),
-                      style: textTheme.bodyLarge,
-                      // Use validator with form key
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter your mobile number';
-                        }
-                        return null;
-                      },
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.inputDecorationTheme.fillColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                          ),
+                          child: Text('+91', style: textTheme.bodyLarge),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: TextFormField(
+                            controller: phoneController,
+                            keyboardType: TextInputType.phone,
+                            maxLength: 10,
+                            enabled: !isLoading,
+                            decoration: const InputDecoration(counterText: ""),
+                            style: textTheme.bodyLarge,
+                            // Use validator with form key
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Please enter your mobile number';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
                     ),
 
+                    // TextFormField(
+                    //   controller: phoneController,
+                    //   keyboardType: TextInputType.phone,
+                    //   maxLength: 10,
+                    //   enabled: !isLoading,
+                    //   decoration: const InputDecoration(counterText: ""),
+                    //   style: textTheme.bodyLarge,
+                    //   // Use validator with form key
+                    //   validator: (value) {
+                    //     if (value == null || value.trim().isEmpty) {
+                    //       return 'Please enter your mobile number';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
@@ -127,6 +162,9 @@ class _EnterNumberState extends State<EnterNumber> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
+                          disabledBackgroundColor: Colors.blue, //.withAlpha(
+                          //   100,
+                          // ), // Keep blue but slightly faded when disabled/loading
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -147,12 +185,19 @@ class _EnterNumberState extends State<EnterNumber> {
                                 },
                         child:
                             isLoading
-                                ? CircularProgressIndicator(color: Colors.white)
+                                ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
                                 : const Text(
                                   'Send OTP',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: HrmColors.white,
+                                    color: Colors.white,
                                   ),
                                 ),
                       ),
