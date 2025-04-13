@@ -2,19 +2,14 @@ part of 'home_bloc.dart';
 
 @freezed
 class HomeState with _$HomeState {
-
   const factory HomeState.initial(HomeStore store) = Initial;
-
 
   const factory HomeState.loading(HomeStore store) = Loading;
 
-
   const factory HomeState.loaded(HomeStore store) = Loaded;
-
 
   const factory HomeState.error(HomeStore store, String message) = Error;
 }
-
 
 extension HomeStateX on HomeState {
   HomeStore get store {
@@ -27,7 +22,6 @@ extension HomeStateX on HomeState {
   }
 }
 
-
 @freezed
 class HomeStore with _$HomeStore {
   const factory HomeStore({
@@ -37,5 +31,6 @@ class HomeStore with _$HomeStore {
     @Default(0) int totalItems,
     @Default(false) bool loading,
     String? searchTerm,
+    @Default(false) bool hasReachedMax,
   }) = _HomeStore;
 }

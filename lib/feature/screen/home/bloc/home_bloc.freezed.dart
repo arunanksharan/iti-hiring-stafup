@@ -126,15 +126,23 @@ class __$$FetchJobsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchJobsImpl implements FetchJobs {
+class _$FetchJobsImpl with DiagnosticableTreeMixin implements FetchJobs {
   const _$FetchJobsImpl(this.companyId);
 
   @override
   final String? companyId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeEvent.fetchJobs(companyId: $companyId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeEvent.fetchJobs'))
+      ..add(DiagnosticsProperty('companyId', companyId));
   }
 
   @override
@@ -287,15 +295,25 @@ class __$$ResetAndFetchImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ResetAndFetchImpl implements ResetAndFetch {
+class _$ResetAndFetchImpl
+    with DiagnosticableTreeMixin
+    implements ResetAndFetch {
   const _$ResetAndFetchImpl(this.companyId);
 
   @override
   final String? companyId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeEvent.resetAndFetch(companyId: $companyId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeEvent.resetAndFetch'))
+      ..add(DiagnosticsProperty('companyId', companyId));
   }
 
   @override
@@ -448,15 +466,23 @@ class __$$NextPageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NextPageImpl implements NextPage {
+class _$NextPageImpl with DiagnosticableTreeMixin implements NextPage {
   const _$NextPageImpl([this.companyId]);
 
   @override
   final String? companyId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeEvent.nextPage(companyId: $companyId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeEvent.nextPage'))
+      ..add(DiagnosticsProperty('companyId', companyId));
   }
 
   @override
@@ -609,15 +635,23 @@ class __$$PreviousPageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PreviousPageImpl implements PreviousPage {
+class _$PreviousPageImpl with DiagnosticableTreeMixin implements PreviousPage {
   const _$PreviousPageImpl([this.companyId]);
 
   @override
   final String? companyId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeEvent.previousPage(companyId: $companyId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeEvent.previousPage'))
+      ..add(DiagnosticsProperty('companyId', companyId));
   }
 
   @override
@@ -770,15 +804,23 @@ class __$$SearchImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SearchImpl implements Search {
+class _$SearchImpl with DiagnosticableTreeMixin implements Search {
   const _$SearchImpl(this.query);
 
   @override
   final String query;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeEvent.search(query: $query)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeEvent.search'))
+      ..add(DiagnosticsProperty('query', query));
   }
 
   @override
@@ -1038,15 +1080,23 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
   const _$InitialImpl(this.store);
 
   @override
   final HomeStore store;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeState.initial(store: $store)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.initial'))
+      ..add(DiagnosticsProperty('store', store));
   }
 
   @override
@@ -1199,15 +1249,23 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl implements Loading {
+class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   const _$LoadingImpl(this.store);
 
   @override
   final HomeStore store;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeState.loading(store: $store)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.loading'))
+      ..add(DiagnosticsProperty('store', store));
   }
 
   @override
@@ -1359,15 +1417,23 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedImpl implements Loaded {
+class _$LoadedImpl with DiagnosticableTreeMixin implements Loaded {
   const _$LoadedImpl(this.store);
 
   @override
   final HomeStore store;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeState.loaded(store: $store)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.loaded'))
+      ..add(DiagnosticsProperty('store', store));
   }
 
   @override
@@ -1523,7 +1589,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl implements Error {
+class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   const _$ErrorImpl(this.store, this.message);
 
   @override
@@ -1532,8 +1598,17 @@ class _$ErrorImpl implements Error {
   final String message;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeState.error(store: $store, message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.error'))
+      ..add(DiagnosticsProperty('store', store))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override
@@ -1655,6 +1730,7 @@ mixin _$HomeStore {
   int get totalItems => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   String? get searchTerm => throw _privateConstructorUsedError;
+  bool get hasReachedMax => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeStore
   /// with the given fields replaced by the non-null parameter values.
@@ -1675,6 +1751,7 @@ abstract class $HomeStoreCopyWith<$Res> {
     int totalItems,
     bool loading,
     String? searchTerm,
+    bool hasReachedMax,
   });
 }
 
@@ -1699,6 +1776,7 @@ class _$HomeStoreCopyWithImpl<$Res, $Val extends HomeStore>
     Object? totalItems = null,
     Object? loading = null,
     Object? searchTerm = freezed,
+    Object? hasReachedMax = null,
   }) {
     return _then(
       _value.copyWith(
@@ -1732,6 +1810,11 @@ class _$HomeStoreCopyWithImpl<$Res, $Val extends HomeStore>
                     ? _value.searchTerm
                     : searchTerm // ignore: cast_nullable_to_non_nullable
                         as String?,
+            hasReachedMax:
+                null == hasReachedMax
+                    ? _value.hasReachedMax
+                    : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -1754,6 +1837,7 @@ abstract class _$$HomeStoreImplCopyWith<$Res>
     int totalItems,
     bool loading,
     String? searchTerm,
+    bool hasReachedMax,
   });
 }
 
@@ -1777,6 +1861,7 @@ class __$$HomeStoreImplCopyWithImpl<$Res>
     Object? totalItems = null,
     Object? loading = null,
     Object? searchTerm = freezed,
+    Object? hasReachedMax = null,
   }) {
     return _then(
       _$HomeStoreImpl(
@@ -1810,6 +1895,11 @@ class __$$HomeStoreImplCopyWithImpl<$Res>
                 ? _value.searchTerm
                 : searchTerm // ignore: cast_nullable_to_non_nullable
                     as String?,
+        hasReachedMax:
+            null == hasReachedMax
+                ? _value.hasReachedMax
+                : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -1817,7 +1907,7 @@ class __$$HomeStoreImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HomeStoreImpl implements _HomeStore {
+class _$HomeStoreImpl with DiagnosticableTreeMixin implements _HomeStore {
   const _$HomeStoreImpl({
     final List<Item> items = const [],
     this.currentPage = 1,
@@ -1825,6 +1915,7 @@ class _$HomeStoreImpl implements _HomeStore {
     this.totalItems = 0,
     this.loading = false,
     this.searchTerm,
+    this.hasReachedMax = false,
   }) : _items = items;
 
   final List<Item> _items;
@@ -1850,10 +1941,27 @@ class _$HomeStoreImpl implements _HomeStore {
   final bool loading;
   @override
   final String? searchTerm;
+  @override
+  @JsonKey()
+  final bool hasReachedMax;
 
   @override
-  String toString() {
-    return 'HomeStore(items: $items, currentPage: $currentPage, pageSize: $pageSize, totalItems: $totalItems, loading: $loading, searchTerm: $searchTerm)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeStore(items: $items, currentPage: $currentPage, pageSize: $pageSize, totalItems: $totalItems, loading: $loading, searchTerm: $searchTerm, hasReachedMax: $hasReachedMax)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeStore'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('currentPage', currentPage))
+      ..add(DiagnosticsProperty('pageSize', pageSize))
+      ..add(DiagnosticsProperty('totalItems', totalItems))
+      ..add(DiagnosticsProperty('loading', loading))
+      ..add(DiagnosticsProperty('searchTerm', searchTerm))
+      ..add(DiagnosticsProperty('hasReachedMax', hasReachedMax));
   }
 
   @override
@@ -1870,7 +1978,9 @@ class _$HomeStoreImpl implements _HomeStore {
                 other.totalItems == totalItems) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.searchTerm, searchTerm) ||
-                other.searchTerm == searchTerm));
+                other.searchTerm == searchTerm) &&
+            (identical(other.hasReachedMax, hasReachedMax) ||
+                other.hasReachedMax == hasReachedMax));
   }
 
   @override
@@ -1882,6 +1992,7 @@ class _$HomeStoreImpl implements _HomeStore {
     totalItems,
     loading,
     searchTerm,
+    hasReachedMax,
   );
 
   /// Create a copy of HomeStore
@@ -1901,6 +2012,7 @@ abstract class _HomeStore implements HomeStore {
     final int totalItems,
     final bool loading,
     final String? searchTerm,
+    final bool hasReachedMax,
   }) = _$HomeStoreImpl;
 
   @override
@@ -1915,6 +2027,8 @@ abstract class _HomeStore implements HomeStore {
   bool get loading;
   @override
   String? get searchTerm;
+  @override
+  bool get hasReachedMax;
 
   /// Create a copy of HomeStore
   /// with the given fields replaced by the non-null parameter values.

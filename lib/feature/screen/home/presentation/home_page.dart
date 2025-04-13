@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   final String tag = '/HomePage';
 
   RefreshController refreshController = RefreshController();
@@ -44,7 +47,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     _cachedCompanyId = widget.companyId ?? getStringAsync(companyId);
 
     // Cache company ID in shared prefs if we have it but it's not saved
-    if (_cachedCompanyId != null && _cachedCompanyId!.isNotEmpty && 
+    if (_cachedCompanyId != null &&
+        _cachedCompanyId!.isNotEmpty &&
         getStringAsync(companyId).isEmpty) {
       setValue(companyId, _cachedCompanyId!);
     }
@@ -76,14 +80,17 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Must call super.build for AutomaticKeepAliveClientMixin
-    
+    super.build(
+      context,
+    ); // Must call super.build for AutomaticKeepAliveClientMixin
+
     Provider.of<ColorNotifier>(context);
-    
+
     // Always check for company ID when building the widget
     // This ensures we have the ID even when navigating back to this tab
-    final String? companyIdToUse = _cachedCompanyId ?? getStringAsync(companyId);
-    
+    final String? companyIdToUse =
+        _cachedCompanyId ?? getStringAsync(companyId);
+
     // Only fetch if company ID is available and we need to rehydrate data
     if (companyIdToUse != null && companyIdToUse.isNotEmpty) {
       // Get current bloc state to determine if we need to fetch
@@ -95,7 +102,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         });
       }
     }
-    
+
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is Loaded) {
@@ -103,7 +110,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             refreshController.refreshCompleted();
           }
           if (refreshController.isLoading) {
-            refreshController.loadComplete();
+            if (state.store.hasReachedMax) {
+              refreshController.loadNoData(); // Use loadNoData if max reached
+            } else {
+              refreshController.loadComplete(); // Otherwise, load complete
+            }
+          }
+          // Reset refresh status if load finishes, regardless of pull direction
+          if (state.store.hasReachedMax &&
+              state.store.items.length >= state.store.totalItems) {
+            refreshController.loadNoData();
           }
         } else if (state is Error) {
           if (refreshController.isRefresh) {
@@ -112,6 +128,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           if (refreshController.isLoading) {
             refreshController.loadFailed();
           }
+        } else if (state is Loading && refreshController.isRefresh) {
+          // Keep indicator showing during refresh loading state
         }
       },
       builder: (context, state) {
@@ -281,22 +299,26 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return SmartRefresher(
       controller: refreshController,
       enablePullDown: true,
-      enablePullUp: true,
+      enablePullUp: !state.store.hasReachedMax,
       onRefresh: () {
         context.read<HomeBloc>().add(
           HomeEvent.resetAndFetch(getStringAsync(companyId)),
         );
       },
       onLoading: () {
-        final totalPages =
-            (state.store.totalItems / state.store.pageSize).ceil();
-        final isLastPage = state.store.currentPage >= totalPages - 1;
-
-        if (isLastPage) {
+        // --- Updated onLoading Logic ---
+        // Check the Bloc state directly
+        if (state.store.hasReachedMax || state.store.loading) {
+          // If max is already reached according to the Bloc state,
+          // or if already loading, do nothing or signal no data.
+          // loadNoData might be called by the listener now,
+          // but ensuring it here prevents unnecessary event dispatch.
           refreshController.loadNoData();
         } else {
+          // Only dispatch NextPage if not at max and not already loading
           context.read<HomeBloc>().add(const HomeEvent.nextPage());
         }
+        // --- End of Updated Logic ---
       },
       child: ListView.builder(
         physics: AlwaysScrollableScrollPhysics(),
@@ -358,12 +380,15 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   ),
 
                   Text(
-                    '${state.store.items[index].jobPosting?.personName ?? ''}',
+                    state.store.items[index].jobPosting?.personName ?? '',
                     style: const TextStyle(fontSize: 13, color: Colors.black87),
                   ),
 
                   Text(
-                    '${state.store.items[index].createdAt?.toIso8601String().substring(0, 10) ?? ''}',
+                    state.store.items[index].createdAt
+                            ?.toIso8601String()
+                            .substring(0, 10) ??
+                        '',
                     style: const TextStyle(fontSize: 13, color: Colors.black54),
                   ),
                 ],
@@ -377,10 +402,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   Widget _buildPaginationControls(BuildContext context, HomeState state) {
     final store = state.store;
-    final totalPages = (store.totalItems / store.pageSize).ceil();
-    final currentPage = store.currentPage;
-    final isFirstPage = currentPage == 0;
-    final isLastPage = currentPage >= totalPages - 1;
+    // final totalPages = (store.totalItems / store.pageSize).ceil();
+    // final currentPage = store.currentPage;
+    // final isFirstPage = currentPage == 0;
+    // final isLastPage = currentPage >= totalPages - 1;
+    final totalPages =
+        store.pageSize > 0 ? (store.totalItems / store.pageSize).ceil() : 1;
+    final currentPage =
+        store
+            .currentPage; // Assuming currentPage is 1-based in store after fetch
+    final isFirstPage = currentPage <= 1; // Check against 1 if 1-based
+    final bool effectivelyLastPage =
+        store.hasReachedMax ||
+        (currentPage >= totalPages && store.totalItems > 0);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -417,7 +451,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               IconButton(
                 icon: const Icon(Icons.arrow_forward),
                 onPressed:
-                    isLastPage || state.store.loading || totalPages == 0
+                    effectivelyLastPage ||
+                            state.store.loading ||
+                            totalPages == 0
                         ? null
                         : () => context.read<HomeBloc>().add(
                           const HomeEvent.nextPage(),
