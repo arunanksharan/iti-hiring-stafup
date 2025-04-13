@@ -18,6 +18,7 @@ class DioClient {
   static late Dio _dio;
   static bool _isDialogShowing = false;
   static bool _isLoggingOut = false;
+
   static void init(String baseUrl) {
     _dio = Dio(
       BaseOptions(
