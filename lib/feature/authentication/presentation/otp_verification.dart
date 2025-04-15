@@ -160,7 +160,7 @@ class OTPVerificationState extends State<OTPVerification> {
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: otpFieldController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.phone,
                       maxLength: 6,
                       enabled: !isLoading,
                       textAlign: TextAlign.center,
